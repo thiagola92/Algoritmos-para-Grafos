@@ -4,13 +4,14 @@ import java.util.ArrayList;
 
 public class Vertice {
 	
-	private boolean MULTIPLOS_CAMINHOS = false; // Se você não quiser que tenha duas ou mais arestas levando ao mesmo local só que com tamanhos diferentes
-	
 	private String nome;
 	private int grau_de_entrada;
 	private int grau_de_saida;
+	private int visitado;
 	
 	private ArrayList<Aresta> lista_de_arestas;
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	/**
 	 * Um objeto para representar um Vertice
@@ -21,28 +22,34 @@ public class Vertice {
 		nome = n;
 		grau_de_entrada = 0;
 		grau_de_saida = 0;
+		visitado = 0;
 	}
 	
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	/**
-	 * Compacta todas arestas daquele vertice em uma String.
+	 * Printa em uma linha todas as arestas desse vertice, o grau de saida e o grau de entrada.
 	 * @return String com todas arestas naquele vertice
+	 * @Complexidade O(m)
 	 */
-	public String print_vertice() {
-		StringBuffer retorno = new StringBuffer("");
+	public void print_vertice() {
+		
+		System.out.print("| " + nome + " | --> | ");
 		
 		for(int i=0; i < lista_de_arestas.size(); i++) {
-			retorno.append(lista_de_arestas.get(i).getVertice_incial());
-			retorno.append("--");
-			retorno.append(lista_de_arestas.get(i).getTamanho());
-			retorno.append("--");
-			retorno.append(lista_de_arestas.get(i).getVertice_final());
-			retorno.append(" | ");
+			System.out.print(lista_de_arestas.get(i).getVertice_incial().getNome());
+			System.out.print("--");
+			System.out.print(lista_de_arestas.get(i).getTamanho());
+			System.out.print("--");
+			System.out.print(lista_de_arestas.get(i).getVertice_final().getNome());
+			System.out.print(" | ");
 		}
 		
-		retorno.append("null |");
-		return retorno.toString();
+		System.out.print("null |");
+		System.out.print(" Grau de saida: " + grau_de_saida);
+		System.out.print(" Grau de entrada: " + grau_de_entrada);
+		
+		System.out.println("");
 	}
 	
 	/**
@@ -50,20 +57,21 @@ public class Vertice {
 	 * @param tamanho_da_aresta Tamanho da Aresta
 	 * @param vertice_para_onde_leva Vertice para a qual ela leva
 	 * @return true se a Aresta foi adicionada e false caso não
+	 * @Complexidade O(m)
 	 */
-	public boolean add_aresta(int tamanho_da_aresta, String vertice_para_onde_leva) {
+	public boolean add_aresta(int tamanho_da_aresta, Vertice vertice_para_onde_leva) {
 		
 		
-		if(!MULTIPLOS_CAMINHOS) {
+		if(!Grafo.ARESTAS_PARALELAS) {
 			for(int i=0; i < lista_de_arestas.size(); i++) {
 				
-				if(lista_de_arestas.get(i).getVertice_final().equals(vertice_para_onde_leva))
+				if(lista_de_arestas.get(i).getVertice_final() == vertice_para_onde_leva)
 					return false;
 			
 			}
 		}
 		
-		lista_de_arestas.add(new Aresta(nome, tamanho_da_aresta, vertice_para_onde_leva));
+		lista_de_arestas.add(new Aresta(this, tamanho_da_aresta, vertice_para_onde_leva));
 		
 		return true;
 	}
@@ -88,6 +96,18 @@ public class Vertice {
 
 	public void setGrau_de_saida(int grau_de_saida) {
 		this.grau_de_saida = grau_de_saida;
+	}
+
+	public int getVisitado() {
+		return visitado;
+	}
+
+	public void setVisitado(int visitado) {
+		this.visitado = visitado;
+	}
+
+	public ArrayList<Aresta> getLista_de_arestas() {
+		return lista_de_arestas;
 	}
 	
 }
