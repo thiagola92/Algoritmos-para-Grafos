@@ -64,6 +64,10 @@ public class Algoritmos_com_grafo {
 		return null;
 	}
 	
+	/**
+	 * Essa função apenas percorre todos os vertices mandando roda um tipo "busca binaria" por um vertice que ainda não tenha percorrido
+	 * @return true se tiver ciclo no grafo, false caso não
+	 */
 	public boolean ciclo() {
 		ArrayList<Vertice> lista_de_vertices = grafo.getLista_de_vertices();
 		grafo.zerar_visitados();
@@ -79,6 +83,15 @@ public class Algoritmos_com_grafo {
 		return false;
 	}
 	
+	/**
+	 * Se visitado == 0, o vertice ainda não foi visitado e por isso devemos rodar a busca para ele.
+	 * <br/>Se visitado == 1, é o vertice que estamos executando busca, se você encontrar com outro vertice == 1 então teve loop.
+	 * <br/>Se visitado == 2, já executamos a busca nesse vertice e após ele não tem nenhum loop.
+	 * <br/>Notar que caso o grafo seja não direcionado, sempre vai ter ciclo pois uma aresta pode servir para ir e voltar.
+	 * @param vertice_no_momento Vertice pelo qual você vai olhar as arestas
+	 * @return true se voltou a um vertice atráves dessa busca, false caso não
+	 * @Complexidade O(n+m)
+	 */
 	private boolean ciclo_caminhada(Vertice vertice_no_momento) {
 		ArrayList<Aresta> lista_de_arestas = vertice_no_momento.getLista_de_arestas();
 		
