@@ -5,7 +5,7 @@ import java.util.Random;
 
 public class Grafo {
 	
-	private boolean DIRECIONADO = false;	// Direcionado, a aresta usada para ir não pode ser usada para voltar, encontre outra aresta.
+	private boolean DIRECIONADO = true;	// Direcionado, a aresta usada para ir não pode ser usada para voltar, encontre outra aresta.
 	private boolean LACOS = false;			// Laços, se um vertice pode ligar a ele mesmo usando uma aresta.
 	
 	private int ARESTAS_TAM_MIN = 1;		// Tamanho mínimo das arestas aleatórias (você ainda pode acrescentar arestas de qualquer tamanho)
@@ -52,13 +52,14 @@ public class Grafo {
 		Vertice v;
 		String s;
 		
-		for(int i=0; lista_de_vertices != null && i < lista_de_vertices.size(); i++) {
+		for(int i=0; i < lista_de_vertices.size(); i++) {
 			
 			v = lista_de_vertices.get(i);
 			s = "----" + new String(new char[v.getNome().length()]).replace("\0", "-");
 			
 			System.out.println(s);
-			System.out.println("| " + v.getNome() + " | --> | " + v.print_vertice());
+			System.out.print("| " + v.getNome() + " | --> | " + v.print_vertice());
+			System.out.println(" Grau de saida: " + v.getGrau_de_saida() + " Grau de entrada: " + v.getGrau_de_entrada());
 			System.out.println(s);
 		}
 		
@@ -72,7 +73,8 @@ public class Grafo {
 	 */
 	public boolean add_vertice(String nome) {
 		
-		for(int i=0; lista_de_vertices != null && i < lista_de_vertices.size(); i++) {
+		
+		for(int i=0; i < lista_de_vertices.size(); i++) {
 			
 			if(lista_de_vertices.get(i).getNome().equals(nome))
 				return false;
@@ -104,7 +106,7 @@ public class Grafo {
 				return false;
 		}
 		
-		for(int i=0; lista_de_vertices != null && i < lista_de_vertices.size(); i++) {
+		for(int i=0; i < lista_de_vertices.size() && (!vertice_inicial_existe || !vertice_final_existe); i++) {
 			
 			if(lista_de_vertices.get(i).getNome().equals(vertice_inicial)) {
 				v = lista_de_vertices.get(i);
@@ -120,10 +122,17 @@ public class Grafo {
 		
 		if(vertice_inicial_existe && vertice_final_existe) {
 			
-			v.add_aresta(tamanho, vertice_final);
+			if(v.add_aresta(tamanho, vertice_final)) {
+				v.setGrau_de_saida(v.getGrau_de_saida() + 1);
+				v2.setGrau_de_entrada(v2.getGrau_de_entrada() + 1);
+			}
 			
-			if(!DIRECIONADO)
-				v2.add_aresta(tamanho, vertice_inicial);
+			if(!DIRECIONADO) {
+				if(v2.add_aresta(tamanho, vertice_inicial)) {
+					v2.setGrau_de_saida(v2.getGrau_de_saida() + 1);
+					v.setGrau_de_entrada(v.getGrau_de_entrada() + 1);
+				}
+			}
 			
 			return true;
 		}
