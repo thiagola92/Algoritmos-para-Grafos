@@ -5,14 +5,14 @@ import java.util.Random;
 
 public class Grafo {
 	
-	static protected boolean DIRECIONADO = true;	// Direcionado, a aresta usada para ir não pode ser usada para voltar, encontre outra aresta.
-	static protected boolean LACOS = false;			// Laços, se um vertice pode ligar a ele mesmo usando uma aresta.
-	static protected boolean ARESTAS_PARALELAS = false; // Se você não quiser que tenha duas ou mais arestas levando ao mesmo local só que com tamanhos diferentes
+	public boolean DIRECIONADO = true;	// Direcionado, a aresta usada para ir não pode ser usada para voltar, encontre outra aresta.
+	public boolean LACOS = false;			// Laços, se um vertice pode ligar a ele mesmo usando uma aresta.
+	public boolean ARESTAS_PARALELAS = false; // Se você não quiser que tenha duas ou mais arestas levando ao mesmo local só que com tamanhos diferentes
 	
-	static protected int ARESTAS_TAM_MIN = 1;		// Tamanho mínimo das arestas aleatórias (você ainda pode acrescentar arestas de qualquer tamanho)
-	static protected int ARESTAS_TAM_MAX = 20;		// Tamanho máximo das arestas aleatórias (você ainda pode acrescentar arestas de qualquer tamanho)
+	public int ARESTAS_TAM_MIN = 1;		// Tamanho mínimo das arestas aleatórias (você ainda pode acrescentar arestas de qualquer tamanho)
+	public int ARESTAS_TAM_MAX = 20;		// Tamanho máximo das arestas aleatórias (você ainda pode acrescentar arestas de qualquer tamanho)
 	
-	static protected String PRE_FIX = "Ver";			// Prefixo dos nomes dos vertices criados aleatoriamente
+	public String PRE_FIX = "Ver";			// Prefixo dos nomes dos vertices criados aleatoriamente
 	
 	private ArrayList<Vertice> lista_de_vertices;
 
@@ -70,6 +70,8 @@ public class Grafo {
 		System.out.println("---------------------------------------------------------");
 	}
 	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
 	/**
 	 * Adiciona um vertice ao grafo, sendo que esse vertice não vai ter o mesmo nome que os outros.
 	 * @param nome Nome do vertice.
@@ -86,7 +88,7 @@ public class Grafo {
 			
 		}
 
-		lista_de_vertices.add(new Vertice(nome));
+		lista_de_vertices.add(new Vertice(nome, this));
 		
 		return true;
 	}
@@ -145,6 +147,8 @@ public class Grafo {
 		
 		return false;
 	}
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	/**
 	 * Tornar a variável "visitado" de todos os vertices 0.
@@ -154,6 +158,26 @@ public class Grafo {
 		for(int i=0; i < lista_de_vertices.size(); i++) {
 			lista_de_vertices.get(i).setVisitado(0);
 		}
+	}
+	
+	public Grafo inverter() {
+		Grafo grafo_invertido = new Grafo();
+		
+		for(int i=0; i < lista_de_vertices.size(); i++) {
+			grafo_invertido.add_vertice(lista_de_vertices.get(i).getNome());
+		}
+
+		for(int i=0; i < lista_de_vertices.size(); i++) {
+
+			for(int j=0; j < lista_de_vertices.get(i).getLista_de_arestas().size(); j++) {
+				grafo_invertido.add_aresta(lista_de_vertices.get(i).getLista_de_arestas().get(j).getVertice_final().getNome(),
+						lista_de_vertices.get(i).getLista_de_arestas().get(j).getTamanho(),
+						lista_de_vertices.get(i).getLista_de_arestas().get(j).getVertice_inicial().getNome());
+			}
+			
+		}
+		
+		return grafo_invertido;
 	}
 	
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

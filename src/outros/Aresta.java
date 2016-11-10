@@ -2,14 +2,14 @@ package outros;
 
 public class Aresta {
 	
-	private Vertice vertice_incial;
+	private Vertice vertice_inicial;
 	private int tamanho;
 	private Vertice vertice_final;
 	
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	public Aresta(Vertice v_i, int t, Vertice v_f) {
-		vertice_incial = v_i;
+		vertice_inicial = v_i;
 		tamanho = t;
 		vertice_final = v_f;
 	}
@@ -18,8 +18,8 @@ public class Aresta {
 	
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public Vertice getVertice_incial() {
-		return vertice_incial;
+	public Vertice getVertice_inicial() {
+		return vertice_inicial;
 	}
 	public int getTamanho() {
 		return tamanho;

@@ -9,6 +9,7 @@ public class Vertice {
 	private int grau_de_saida;
 	private int visitado;
 	
+	private Grafo grafo;
 	private ArrayList<Aresta> lista_de_arestas;
 	
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -17,7 +18,8 @@ public class Vertice {
 	 * Um objeto para representar um Vertice
 	 * @param n Nome do Vertice, todo Vertice tem um nome
 	 */
-	public Vertice(String n) {
+	public Vertice(String n, Grafo g) {
+		grafo = g;
 		lista_de_arestas = new ArrayList<>();
 		nome = n;
 		grau_de_entrada = 0;
@@ -37,7 +39,7 @@ public class Vertice {
 		System.out.print("| " + nome + " | --> | ");
 		
 		for(int i=0; i < lista_de_arestas.size(); i++) {
-			System.out.print(lista_de_arestas.get(i).getVertice_incial().getNome());
+			System.out.print(lista_de_arestas.get(i).getVertice_inicial().getNome());
 			System.out.print("--");
 			System.out.print(lista_de_arestas.get(i).getTamanho());
 			System.out.print("--");
@@ -62,7 +64,7 @@ public class Vertice {
 	public boolean add_aresta(int tamanho_da_aresta, Vertice vertice_para_onde_leva) {
 		
 		
-		if(!Grafo.ARESTAS_PARALELAS) {
+		if(!grafo.ARESTAS_PARALELAS) {
 			for(int i=0; i < lista_de_arestas.size(); i++) {
 				
 				if(lista_de_arestas.get(i).getVertice_final() == vertice_para_onde_leva)

@@ -63,6 +63,8 @@ public class Algoritmos_com_grafo {
 		
 		return null;
 	}
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	/**
 	 * Essa função apenas percorre todos os vertices mandando roda um tipo "busca binaria" por um vertice que ainda não tenha percorrido
@@ -113,4 +115,52 @@ public class Algoritmos_com_grafo {
 	}
 	
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	/**
+	 * Pega o primeiro vetor e manda visitar os vertices próximos, esses vertices fazem o mesmo. Se após fizer isso todos os vertices tiverem visitados então é conexo
+	 * @return true se um vertice desse grafo chegar a todos os outros e todos os outros chegarem a ele, false caso contrario
+	 * @Complexidade O(n+m)
+	 */
+	public boolean conexo() {
+		ArrayList<Vertice> lista_de_vertices = grafo.getLista_de_vertices();
+		grafo.zerar_visitados();
+		
+		conexo_caminhada(lista_de_vertices.get(0));
+		
+		for(int i=0; i < lista_de_vertices.size(); i++) {
+			if(lista_de_vertices.get(i).getVisitado() == 0)
+				return false;
+		}
+		
+		Grafo grafo_invertido = grafo.inverter();
+		lista_de_vertices = grafo_invertido.getLista_de_vertices();
+		grafo_invertido.zerar_visitados();
+
+		conexo_caminhada(lista_de_vertices.get(0));
+		
+		for(int i=0; i < lista_de_vertices.size(); i++) {
+			if(lista_de_vertices.get(i).getVisitado() == 0)
+				return false;
+		}
+		
+		return true;
+	}
+	
+	/**
+	 * Marca todos os vertices ligados como visitados e faz eles fazerem o mesmo.
+	 * @param vertice_no_momento
+	 * @Complexidade O(n+m)
+	 */
+	private void conexo_caminhada(Vertice vertice_no_momento) {
+		ArrayList<Aresta> lista_de_arestas = vertice_no_momento.getLista_de_arestas();
+		
+		vertice_no_momento.setVisitado(1);
+		
+		for(int i=0; i < lista_de_arestas.size(); i++) {
+			if(lista_de_arestas.get(i).getVertice_final().getVisitado() == 0)
+				conexo_caminhada(lista_de_arestas.get(i).getVertice_final());
+		}
+
+		vertice_no_momento.setVisitado(2);
+	}
 }
