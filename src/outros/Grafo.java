@@ -80,13 +80,8 @@ public class Grafo {
 	 */
 	public boolean add_vertice(String nome) {
 		
-		
-		for(int i=0; i < lista_de_vertices.size(); i++) {
-			
-			if(lista_de_vertices.get(i).getNome().equals(nome))
-				return false;
-			
-		}
+		if(pegar_vertice(nome) == null)
+			return false;
 
 		lista_de_vertices.add(new Vertice(nome, this));
 		
@@ -151,6 +146,26 @@ public class Grafo {
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	/**
+	 * Como parece que vou precisar pegar um vertice em especial em outras funções, melhor já fazer uma função para isso.
+	 * @param nome Nome do vertice que você quer pegar
+	 * @return Retorna o vertice ou null se não existir
+	 * @Complexidade O(n)
+	 */
+	public Vertice pegar_vertice(String nome) {
+		
+		for(int i=0; i < lista_de_vertices.size(); i++) {
+			
+			if(lista_de_vertices.get(i).getNome().equals(nome))
+				return lista_de_vertices.get(i);
+			
+		}
+		
+		return null;
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	/**
 	 * Tornar a variável "visitado" de todos os vertices 0.
 	 * @Complexidade O(n)
 	 */
@@ -160,6 +175,11 @@ public class Grafo {
 		}
 	}
 	
+	/**
+	 * Percorre esse grafo, ao mesmo tempo que cria um invertido.
+	 * @return Grafo invertido
+	 * @Complexidade O(n+m)
+	 */
 	public Grafo inverter() {
 		Grafo grafo_invertido = new Grafo();
 		
