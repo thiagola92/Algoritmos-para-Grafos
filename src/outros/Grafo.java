@@ -80,7 +80,7 @@ public class Grafo {
 	 */
 	public boolean add_vertice(String nome) {
 		
-		if(pegar_vertice(nome) == null)
+		if(pegar_vertice(nome) != null)
 			return false;
 
 		lista_de_vertices.add(new Vertice(nome, this));
@@ -162,8 +162,6 @@ public class Grafo {
 		
 		return null;
 	}
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	/**
 	 * Tornar a variável "visitado" de todos os vertices 0.

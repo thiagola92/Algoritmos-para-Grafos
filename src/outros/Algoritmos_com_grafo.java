@@ -97,7 +97,6 @@ public class Algoritmos_com_grafo {
 	 * Se visitado == 0, o vertice ainda não foi visitado e por isso devemos rodar a busca para ele.
 	 * <br/>Se visitado == 1, é o vertice que estamos executando busca, se você encontrar com outro vertice == 1 então teve loop.
 	 * <br/>Se visitado == 2, já executamos a busca nesse vertice e após ele não tem nenhum loop.
-	 * <br/>Notar que caso o grafo seja não direcionado, sempre vai ter ciclo pois uma aresta pode servir para ir e voltar.
 	 * @param vertice_no_momento Vertice pelo qual você vai olhar as arestas
 	 * @return true se voltou a um vertice atráves dessa busca, false caso não
 	 * @Complexidade O(n+m)
@@ -108,6 +107,9 @@ public class Algoritmos_com_grafo {
 		vertice_no_momento.setVisitado(1);
 		
 		for(int i=0; i < lista_de_arestas.size(); i++) {
+			
+			if(grafo.DIRECIONADO == false && lista_de_arestas.get(i).getVertice_final() == vertice_no_momento)
+				continue;
 			
 			if(lista_de_arestas.get(i).getVertice_final().getVisitado() == 0) {
 				if(ciclo_caminhada(lista_de_arestas.get(i).getVertice_final()))
@@ -177,5 +179,24 @@ public class Algoritmos_com_grafo {
 	//////////////////////////////////////////////////Exercicios da Lista/////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public boolean Ex1(String nome_do_vertice1, String nome_do_vertice2) {
+		Vertice vertice1 = grafo.pegar_vertice(nome_do_vertice1);
+		Vertice vertice2 = grafo.pegar_vertice(nome_do_vertice2);
+
+		grafo.zerar_visitados();
+		
+		for(int i=0; i < vertice2.getLista_de_arestas().size(); i++) {
+			
+			if(vertice2.getLista_de_arestas().get(i).getVertice_final() == vertice1)
+				continue;
+			
+			if(busca_em_profundidade_caminhada(vertice2.getLista_de_arestas().get(i).getVertice_final(), nome_do_vertice1) != null)
+				return true;
+			
+		}
+		
+		return false;
+	}
 	
 }
