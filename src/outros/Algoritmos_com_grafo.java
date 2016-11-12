@@ -70,13 +70,64 @@ public class Algoritmos_com_grafo {
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	// TODO busca_em_largura
+	/**
+	 * Busca em largura para todos os vertices do grafo
+	 * @param nome_do_vertice Nome do vertice procurado
+	 * @return Vertice procurado ou null se não encontrou
+	 * @Complexidade O(n+m)
+	 */
+	public Vertice busca_em_largura(String nome_do_vertice) {
+		ArrayList<Vertice> lista_de_vertices = grafo.getLista_de_vertices();
+		grafo.zerar_visitados();
+		
+		for(int i=0; i < lista_de_vertices.size(); i++) {
+			
+			if(lista_de_vertices.get(i).getVisitado() != 0)
+				continue;
+			
+			Vertice resposta = busca_em_largura_caminhada(lista_de_vertices.get(i), nome_do_vertice);
+			if(resposta!=null)
+				return resposta;
+		}
+		
+		return null;
+	}
+	
+	/**
+	 * Iria acabar ficando muita coisa de botar só em uma função então separei em duas, mesmo que essa não use recursão
+	 * @param vertice_no_momento Vertice que esta olhando
+	 * @param nome_do_vertice Nome do vertice procurado
+	 * @return Vertice procurando, caso contrário null
+	 * @Complexidade O(n+m)
+	 */
+	private Vertice busca_em_largura_caminhada(Vertice vertice_no_momento, String nome_do_vertice) {
+		ArrayList<Vertice> fila_de_espera = new ArrayList<>();
+
+		fila_de_espera.add(vertice_no_momento);
+		while(fila_de_espera.size() != 0) {
+			fila_de_espera.get(0).setVisitado(1);
+			
+			if(fila_de_espera.get(0).getNome().equals(nome_do_vertice))
+				return fila_de_espera.get(0);
+
+			for(int i=0; i < fila_de_espera.get(0).getLista_de_arestas().size(); i++) {
+				if(fila_de_espera.get(0).getLista_de_arestas().get(i).getVertice_final().getVisitado() == 0)
+					fila_de_espera.add(fila_de_espera.get(0).getLista_de_arestas().get(0).getVertice_final());
+			}
+			
+			fila_de_espera.get(0).setVisitado(2);
+			fila_de_espera.remove(0);
+		}
+		
+		return null;
+	}
 	
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	/**
 	 * Essa função apenas percorre todos os vertices mandando roda um tipo "busca binaria" por um vertice que ainda não tenha percorrido
 	 * @return true se tiver ciclo no grafo, false caso não
+	 * @Complexidade O(n+m)
 	 */
 	public boolean ciclo() {
 		ArrayList<Vertice> lista_de_vertices = grafo.getLista_de_vertices();
@@ -197,6 +248,20 @@ public class Algoritmos_com_grafo {
 		}
 		
 		return false;
+	}
+	
+	public int Ex2(String nome_do_vertice) {
+		Vertice vertice = grafo.pegar_vertice(nome_do_vertice);
+		int soma_dos_graus_dos_vizinhos = 0;
+		
+		for(int i=0; i < vertice.getLista_de_arestas().size(); i++) {
+			soma_dos_graus_dos_vizinhos += vertice.getLista_de_arestas().get(i).getVertice_final().getGrau_de_entrada() + vertice.getLista_de_arestas().get(i).getVertice_final().getGrau_de_saida();
+		}
+		
+		if(grafo.DIRECIONADO == false)
+			soma_dos_graus_dos_vizinhos /= 2;
+		
+		return soma_dos_graus_dos_vizinhos;
 	}
 	
 }

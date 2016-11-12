@@ -6,6 +6,8 @@ public class Main {
 		Grafo g = new Grafo();
 		Algoritmos_com_grafo ag = new Algoritmos_com_grafo(g);
 		
+		//g.DIRECIONADO= false;
+		
 		g.add_vertice("Ver1");
 		g.add_vertice("Ver2");
 		g.add_vertice("Ver3");
@@ -13,10 +15,8 @@ public class Main {
 		
 		g.add_aresta("Ver1", 0, "Ver2");
 		g.add_aresta("Ver2", 0, "Ver3");
-		//g.add_aresta("Ver3", 0, "Ver4");
-		g.add_aresta("Ver2", 0, "Ver4");
-		g.add_aresta("Ver4", 0, "Ver3");
-		//g.add_aresta("Ver4", 0, "Ver1");
+		g.add_aresta("Ver3", 0, "Ver4");
+		g.add_aresta("Ver4", 0, "Ver1");
 		
 		g.print_grafo();
 
@@ -39,9 +39,15 @@ public class Main {
 			System.out.println("Chega a todos os vertices e todos os vertices chegam a ele (conexo)");
 		else
 			System.out.println("Nao é conexo");
+		
+		if(ag.busca_em_largura("Ver4") == null)
+			System.out.println("Nao encontrou");
+		else
+			ag.busca_em_largura("Ver4").print_vertice();
 		*/
 		
 		System.out.println(ag.Ex1("Ver1", "Ver2"));
+		System.out.println(ag.Ex2("Ver2"));
 	}
 
 }
