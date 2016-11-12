@@ -20,34 +20,34 @@ public class Main {
 		
 		g.print_grafo();
 
-		/*
+		
 		Grafo g_invertido;
 		g_invertido = g.inverter();
 		g_invertido.print_grafo();
 		
-		if(ag.busca_em_profundidade("Ver4") == null)
+		if(ag.busca_em_profundidade("Ver1", "Ver4") == null)
 			System.out.println("Nao encontrou");
 		else
-			ag.busca_em_profundidade("Ver4").print_vertice();
+			ag.busca_em_profundidade("Ver1", "Ver4").print_vertice();
 		
 		if(ag.ciclo())
 			System.out.println("Tem ciclo");
 		else
 			System.out.println("Nao tem ciclo");
 		
-		if(ag.conexo())
+		if(ag.fortemente_conexo("Ver1"))
 			System.out.println("Chega a todos os vertices e todos os vertices chegam a ele (conexo)");
 		else
-			System.out.println("Nao é conexo");
+			System.out.println("Nao é fortemente conexo");
 		
-		if(ag.busca_em_largura("Ver4") == null)
+		if(ag.busca_em_largura("Ver1", "Ver4") == null)
 			System.out.println("Nao encontrou");
 		else
-			ag.busca_em_largura("Ver4").print_vertice();
-		*/
+			ag.busca_em_largura("Ver1", "Ver4").print_vertice();
 		
-		System.out.println(ag.Ex1("Ver1", "Ver2"));
-		System.out.println(ag.Ex2("Ver2"));
+		
+		//System.out.println(ag.Ex1("Ver1", "Ver2"));
+		//System.out.println(ag.Ex2("Ver2"));
 	}
 
 }

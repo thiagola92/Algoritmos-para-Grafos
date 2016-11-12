@@ -19,24 +19,15 @@ public class Algoritmos_com_grafo {
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	/**
-	 * Busca em profundidade, essa parte apenas se reponsabiliza de zerar a variavel visitados e mandar cada vertice do grafo para a busca_em_profundidade_caminho(...)
-	 * @param nome_do_vertice Nome do Vertice procurado
-	 * @return Retorna o Vertice
+	 * Busca em profundidade em todos os vertices.
+	 * @param nome_do_vertice_procurado Nome do vertice procurado
+	 * @return Retorna o vertice ou null se não encontrou
 	 * @Complexidade O(n+m)
 	 */
-	public Vertice busca_em_profundidade(String nome_do_vertice) {
-		ArrayList<Vertice> lista_de_vertices = grafo.getLista_de_vertices();
+	public Vertice busca_em_profundidade(String vertice_onde_fazer_a_busca, String nome_do_vertice_procurado) {
 		grafo.zerar_visitados();
 		
-		for(int i=0; i < lista_de_vertices.size(); i++) {
-			if(lista_de_vertices.get(i).getVisitado() == 0) {
-				Vertice resposta = busca_em_profundidade_caminhada(lista_de_vertices.get(i), nome_do_vertice);
-				if(resposta != null)
-					return resposta;
-			}
-		}
-		
-		return null;
+		return busca_em_profundidade_caminhada(grafo.pegar_vertice(vertice_onde_fazer_a_busca), nome_do_vertice_procurado);
 	}
 	
 	/**
@@ -71,26 +62,16 @@ public class Algoritmos_com_grafo {
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	/**
-	 * Busca em largura para todos os vertices do grafo
-	 * @param nome_do_vertice Nome do vertice procurado
-	 * @return Vertice procurado ou null se não encontrou
+	 * Busca em largura começando do vertice escolhido
+	 * @param vertice_onde_fazer_a_busca Nome do vertice onde iniciar a busca
+	 * @param nome_do_vertice_procurado Nome do vertice procurado
+	 * @return Retorna o vertice ou null se não encontrou
 	 * @Complexidade O(n+m)
 	 */
-	public Vertice busca_em_largura(String nome_do_vertice) {
-		ArrayList<Vertice> lista_de_vertices = grafo.getLista_de_vertices();
+	public Vertice busca_em_largura(String vertice_onde_fazer_a_busca, String nome_do_vertice_procurado) {
 		grafo.zerar_visitados();
 		
-		for(int i=0; i < lista_de_vertices.size(); i++) {
-			
-			if(lista_de_vertices.get(i).getVisitado() != 0)
-				continue;
-			
-			Vertice resposta = busca_em_largura_caminhada(lista_de_vertices.get(i), nome_do_vertice);
-			if(resposta!=null)
-				return resposta;
-		}
-		
-		return null;
+		return busca_em_largura_caminhada(grafo.pegar_vertice(vertice_onde_fazer_a_busca), nome_do_vertice_procurado);
 	}
 	
 	/**
@@ -104,6 +85,7 @@ public class Algoritmos_com_grafo {
 		ArrayList<Vertice> fila_de_espera = new ArrayList<>();
 
 		fila_de_espera.add(vertice_no_momento);
+		
 		while(fila_de_espera.size() != 0) {
 			fila_de_espera.get(0).setVisitado(1);
 			
@@ -112,7 +94,7 @@ public class Algoritmos_com_grafo {
 
 			for(int i=0; i < fila_de_espera.get(0).getLista_de_arestas().size(); i++) {
 				if(fila_de_espera.get(0).getLista_de_arestas().get(i).getVertice_final().getVisitado() == 0)
-					fila_de_espera.add(fila_de_espera.get(0).getLista_de_arestas().get(0).getVertice_final());
+					fila_de_espera.add(fila_de_espera.get(0).getLista_de_arestas().get(i).getVertice_final());
 			}
 			
 			fila_de_espera.get(0).setVisitado(2);
@@ -125,8 +107,8 @@ public class Algoritmos_com_grafo {
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	/**
-	 * Essa função apenas percorre todos os vertices mandando roda um tipo "busca binaria" por um vertice que ainda não tenha percorrido
-	 * @return true se tiver ciclo no grafo, false caso não
+	 * Confere se o grafo tem ciclo.
+	 * @return true se tiver ciclo, false caso não
 	 * @Complexidade O(n+m)
 	 */
 	public boolean ciclo() {
@@ -145,9 +127,10 @@ public class Algoritmos_com_grafo {
 	}
 	
 	/**
-	 * Se visitado == 0, o vertice ainda não foi visitado e por isso devemos rodar a busca para ele.
-	 * <br/>Se visitado == 1, é o vertice que estamos executando busca, se você encontrar com outro vertice == 1 então teve loop.
-	 * <br/>Se visitado == 2, já executamos a busca nesse vertice e após ele não tem nenhum loop.
+	 * Essa função apenas percorre todos os vertices mandando rodar um tipo "busca em profundidade" por um vertice que ainda não tenha percorrido. <br/>
+	 * Se visitado == 0, o vertice ainda não foi visitado e por isso devemos rodar a busca para ele. <br/>
+	 * Se visitado == 1, é o vertice que estamos executando busca, se você encontrar com outro vertice == 1 então teve loop. <br/>
+	 * Se visitado == 2, já executamos a busca nesse vertice e após ele não tem nenhum loop.
 	 * @param vertice_no_momento Vertice pelo qual você vai olhar as arestas
 	 * @return true se voltou a um vertice atráves dessa busca, false caso não
 	 * @Complexidade O(n+m)
@@ -178,15 +161,17 @@ public class Algoritmos_com_grafo {
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	/**
-	 * Pega o primeiro vetor e manda visitar os vertices próximos, esses vertices fazem o mesmo. Se após fizer isso todos os vertices tiverem visitados então é conexo
-	 * @return true se um vertice desse grafo chegar a todos os outros e todos os outros chegarem a ele, false caso contrario
+	 * Descobre se o vertice é fortemente conexo.
+	 * Chama fortemente_conexo_caminhada(), depois inverte o grafo e chama fortemente_conexo_caminhada().
+	 * @return true se for fortemente conexo, false caso contrário
 	 * @Complexidade O(n+m)
 	 */
-	public boolean conexo() {
+	public boolean fortemente_conexo(String vertice_a_verificar) {
 		ArrayList<Vertice> lista_de_vertices = grafo.getLista_de_vertices();
+		Vertice vertice = grafo.pegar_vertice(vertice_a_verificar);
 		grafo.zerar_visitados();
 		
-		conexo_caminhada(lista_de_vertices.get(0));
+		fortemente_conexo_caminhada(vertice);
 		
 		for(int i=0; i < lista_de_vertices.size(); i++) {
 			if(lista_de_vertices.get(i).getVisitado() == 0)
@@ -197,7 +182,7 @@ public class Algoritmos_com_grafo {
 		lista_de_vertices = grafo_invertido.getLista_de_vertices();
 		grafo_invertido.zerar_visitados();
 
-		conexo_caminhada(lista_de_vertices.get(0));
+		fortemente_conexo_caminhada(vertice);
 		
 		for(int i=0; i < lista_de_vertices.size(); i++) {
 			if(lista_de_vertices.get(i).getVisitado() == 0)
@@ -212,14 +197,14 @@ public class Algoritmos_com_grafo {
 	 * @param vertice_no_momento
 	 * @Complexidade O(n+m)
 	 */
-	private void conexo_caminhada(Vertice vertice_no_momento) {
+	private void fortemente_conexo_caminhada(Vertice vertice_no_momento) {
 		ArrayList<Aresta> lista_de_arestas = vertice_no_momento.getLista_de_arestas();
 		
 		vertice_no_momento.setVisitado(1);
 		
 		for(int i=0; i < lista_de_arestas.size(); i++) {
 			if(lista_de_arestas.get(i).getVertice_final().getVisitado() == 0)
-				conexo_caminhada(lista_de_arestas.get(i).getVertice_final());
+				fortemente_conexo_caminhada(lista_de_arestas.get(i).getVertice_final());
 		}
 
 		vertice_no_momento.setVisitado(2);
@@ -262,6 +247,10 @@ public class Algoritmos_com_grafo {
 			soma_dos_graus_dos_vizinhos /= 2;
 		
 		return soma_dos_graus_dos_vizinhos;
+	}
+	
+	public Grafo Ex3() {
+		return null;
 	}
 	
 }
