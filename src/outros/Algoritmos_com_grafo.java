@@ -161,7 +161,7 @@ public class Algoritmos_com_grafo {
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	/**
-	 * Descobre se o vertice é fortemente conexo.
+	 * Descobre se o grafo é fortemente conexo.
 	 * Chama fortemente_conexo_caminhada(), depois inverte o grafo e chama fortemente_conexo_caminhada().
 	 * @return true se for fortemente conexo, false caso contrário
 	 * @Complexidade O(n+m)
@@ -208,49 +208,6 @@ public class Algoritmos_com_grafo {
 		}
 
 		vertice_no_momento.setVisitado(2);
-	}
-
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	//////////////////////////////////////////////////Exercicios da Lista/////////////////////////////////////////////////////////////////////
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	public boolean Ex1(String nome_do_vertice1, String nome_do_vertice2) {
-		Vertice vertice1 = grafo.pegar_vertice(nome_do_vertice1);
-		Vertice vertice2 = grafo.pegar_vertice(nome_do_vertice2);
-
-		grafo.zerar_visitados();
-		
-		for(int i=0; i < vertice2.getLista_de_arestas().size(); i++) {
-			
-			if(vertice2.getLista_de_arestas().get(i).getVertice_final() == vertice1)
-				continue;
-			
-			if(busca_em_profundidade_caminhada(vertice2.getLista_de_arestas().get(i).getVertice_final(), nome_do_vertice1) != null)
-				return true;
-			
-		}
-		
-		return false;
-	}
-	
-	public int Ex2(String nome_do_vertice) {
-		Vertice vertice = grafo.pegar_vertice(nome_do_vertice);
-		int soma_dos_graus_dos_vizinhos = 0;
-		
-		for(int i=0; i < vertice.getLista_de_arestas().size(); i++) {
-			soma_dos_graus_dos_vizinhos += vertice.getLista_de_arestas().get(i).getVertice_final().getGrau_de_entrada() + vertice.getLista_de_arestas().get(i).getVertice_final().getGrau_de_saida();
-		}
-		
-		if(grafo.DIRECIONADO == false)
-			soma_dos_graus_dos_vizinhos /= 2;
-		
-		return soma_dos_graus_dos_vizinhos;
-	}
-	
-	public Grafo Ex3() {
-		return null;
 	}
 	
 }

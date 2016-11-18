@@ -3,24 +3,32 @@ package outros;
 public class Main {
 
 	public static void main(String[] args) {
-		Grafo g = new Grafo();
+		Grafo g = new Grafo(4);
 		Algoritmos_com_grafo ag = new Algoritmos_com_grafo(g);
 		
-		//g.DIRECIONADO= false;
-		
+		g.DIRECIONADO= false;
+		/*
 		g.add_vertice("Ver1");
 		g.add_vertice("Ver2");
 		g.add_vertice("Ver3");
 		g.add_vertice("Ver4");
+		g.add_vertice("Ver5");
+		g.add_vertice("Ver6");
+		g.add_vertice("Ver7");
+		g.add_vertice("Ver8");
 		
-		g.add_aresta("Ver1", 0, "Ver2");
-		g.add_aresta("Ver2", 0, "Ver3");
-		g.add_aresta("Ver3", 0, "Ver4");
-		g.add_aresta("Ver4", 0, "Ver1");
+		g.add_aresta("Ver1", 10, "Ver2");
+		g.add_aresta("Ver2", 3, "Ver3");
+		g.add_aresta("Ver3", 4, "Ver4");
+		g.add_aresta("Ver4", 5, "Ver1");
+		g.add_aresta("Ver1", 1, "Ver5");
+		g.add_aresta("Ver5", 0, "Ver6");
+		g.add_aresta("Ver6", 11, "Ver7");
+		g.add_aresta("Ver7", 9, "Ver8");*/
 		
 		g.print_grafo();
 
-		
+		/*
 		Grafo g_invertido;
 		g_invertido = g.inverter();
 		g_invertido.print_grafo();
@@ -44,10 +52,7 @@ public class Main {
 			System.out.println("Nao encontrou");
 		else
 			ag.busca_em_largura("Ver1", "Ver4").print_vertice();
-		
-		
-		//System.out.println(ag.Ex1("Ver1", "Ver2"));
-		//System.out.println(ag.Ex2("Ver2"));
+		*/
 	}
 
 }
