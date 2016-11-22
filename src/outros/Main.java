@@ -6,7 +6,6 @@ public class Main {
 		Grafo g = new Grafo(4);
 		Algoritmos_com_grafo ag = new Algoritmos_com_grafo(g);
 		
-		g.DIRECIONADO= false;
 		/*
 		g.add_vertice("Ver1");
 		g.add_vertice("Ver2");

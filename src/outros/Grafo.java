@@ -164,6 +164,23 @@ public class Grafo {
 	}
 	
 	/**
+	 * Pegar todas as arestas de um grafo.
+	 * @return ArrayList<Aresta> com todas as arestas do grafo
+	 */
+	public ArrayList<Aresta> pegar_arestas() {
+		ArrayList<Aresta> lista_de_todas_arestas = new ArrayList<>();
+		
+		for(int i=0; i < lista_de_vertices.size(); i++) {
+			for(int j=0; j < lista_de_vertices.get(i).getLista_de_arestas().size(); j++)
+				lista_de_todas_arestas.add(lista_de_vertices.get(i).getLista_de_arestas().get(j));
+		}
+		
+		return lista_de_todas_arestas;
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	/**
 	 * Tornar a variável "visitado" de todos os vertices 0.
 	 * @Complexidade O(n)
 	 */
