@@ -50,6 +50,7 @@ public class Vertice {
 		System.out.print("null |");
 		System.out.print(" Grau de saida: " + grau_de_saida);
 		System.out.print(" Grau de entrada: " + grau_de_entrada);
+		System.out.print(" Visitado: " + visitado);
 		
 		System.out.println("");
 	}

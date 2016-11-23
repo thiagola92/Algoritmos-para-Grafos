@@ -1,6 +1,7 @@
 package outros;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class Algoritmos_com_grafo {
 
@@ -25,7 +26,7 @@ public class Algoritmos_com_grafo {
 	 * @Complexidade O(n+m)
 	 */
 	public Vertice busca_em_profundidade(String vertice_onde_fazer_a_busca, String nome_do_vertice_procurado) {
-		grafo.zerar_visitados();
+		grafo.set_all_visitados(0);
 		
 		return busca_em_profundidade_caminhada(grafo.pegar_vertice(vertice_onde_fazer_a_busca), nome_do_vertice_procurado);
 	}
@@ -69,7 +70,7 @@ public class Algoritmos_com_grafo {
 	 * @Complexidade O(n+m)
 	 */
 	public Vertice busca_em_largura(String vertice_onde_fazer_a_busca, String nome_do_vertice_procurado) {
-		grafo.zerar_visitados();
+		grafo.set_all_visitados(0);
 		
 		return busca_em_largura_caminhada(grafo.pegar_vertice(vertice_onde_fazer_a_busca), nome_do_vertice_procurado);
 	}
@@ -113,7 +114,7 @@ public class Algoritmos_com_grafo {
 	 */
 	public boolean ciclo() {
 		ArrayList<Vertice> lista_de_vertices = grafo.getLista_de_vertices();
-		grafo.zerar_visitados();
+		grafo.set_all_visitados(0);
 
 		for(int i=0; i < lista_de_vertices.size(); i++) {
 			if(lista_de_vertices.get(i).getVisitado() == 2)
@@ -169,7 +170,7 @@ public class Algoritmos_com_grafo {
 	public boolean fortemente_conexo(String vertice_a_verificar) {
 		ArrayList<Vertice> lista_de_vertices = grafo.getLista_de_vertices();
 		Vertice vertice = grafo.pegar_vertice(vertice_a_verificar);
-		grafo.zerar_visitados();
+		grafo.set_all_visitados(0);
 		
 		fortemente_conexo_caminhada(vertice);
 		
@@ -180,7 +181,7 @@ public class Algoritmos_com_grafo {
 		
 		Grafo grafo_invertido = grafo.inverter();
 		lista_de_vertices = grafo_invertido.getLista_de_vertices();
-		grafo_invertido.zerar_visitados();
+		grafo_invertido.set_all_visitados(0);
 
 		fortemente_conexo_caminhada(vertice);
 		
@@ -208,6 +209,63 @@ public class Algoritmos_com_grafo {
 		}
 
 		vertice_no_momento.setVisitado(2);
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	/**
+	 * Indiferente se o grafo for direcionado ou não, vai retornar um não direcionado.
+	 * @return Um grafo não direcionado com as arestas de menor custo sem fazer ciclo
+	 * @Complexidade O(nm+m^2)
+	 */
+	public Grafo kruskal() {
+		Grafo new_grafo = new Grafo();
+		ArrayList<Aresta> lista_de_arestas = grafo.pegar_arestas();
+		
+		// O(n)
+		for(int i=0; i < grafo.getLista_de_vertices().size(); i++) {
+			new_grafo.add_vertice(grafo.getLista_de_vertices().get(i).getNome());
+			new_grafo.getLista_de_vertices().get(i).setVisitado(i);
+		}
+		
+		lista_de_arestas.sort(new Comparator<Aresta>() {
+
+			@Override
+			public int compare(Aresta aresta1, Aresta aresta2) {
+				return aresta1.getTamanho() - aresta2.getTamanho();
+			}
+			
+		});
+		
+		// O(m(n+m))
+		for(int i=0, j=0; i < lista_de_arestas.size() && j < new_grafo.getLista_de_vertices().size(); i++) {
+			
+			// O(n)
+			Vertice vertice1 = new_grafo.pegar_vertice(lista_de_arestas.get(i).getVertice_inicial().getNome());
+			Vertice vertice2 = new_grafo.pegar_vertice(lista_de_arestas.get(i).getVertice_final().getNome());
+
+			if(vertice1.getVisitado() != vertice2.getVisitado()) {
+				j++;
+				
+				new_grafo.add_aresta(
+						lista_de_arestas.get(i).getVertice_inicial().getNome(),
+						lista_de_arestas.get(i).getTamanho(),
+						lista_de_arestas.get(i).getVertice_final().getNome()
+						);
+				
+				new_grafo.add_aresta(
+							lista_de_arestas.get(i).getVertice_final().getNome(),
+							lista_de_arestas.get(i).getTamanho(),
+							lista_de_arestas.get(i).getVertice_inicial().getNome()
+							);
+				
+				//O(n+m)
+				new_grafo.set_visitado_em_profundidade(vertice1, vertice1.getVisitado());
+				new_grafo.set_visitado_em_profundidade(vertice2, vertice1.getVisitado());
+			}
+		}
+		
+		return new_grafo;
 	}
 	
 }

@@ -3,7 +3,7 @@ package outros;
 public class Main {
 
 	public static void main(String[] args) {
-		Grafo g = new Grafo(4);
+		Grafo g = new Grafo(5);
 		Algoritmos_com_grafo ag = new Algoritmos_com_grafo(g);
 		
 		/*
@@ -52,6 +52,8 @@ public class Main {
 		else
 			ag.busca_em_largura("Ver1", "Ver4").print_vertice();
 		*/
+		
+		(ag.kruskal()).print_grafo();
 	}
 
 }

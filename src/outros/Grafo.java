@@ -5,7 +5,7 @@ import java.util.Random;
 
 public class Grafo {
 	
-	public boolean DIRECIONADO = true;	// Direcionado, a aresta usada para ir não pode ser usada para voltar, encontre outra aresta.
+	public boolean DIRECIONADO = false;	// Direcionado, a aresta usada para ir não pode ser usada para voltar, encontre outra aresta.
 	public boolean LACOS = false;			// Laços, se um vertice pode ligar a ele mesmo usando uma aresta.
 	public boolean ARESTAS_PARALELAS = false; // Se você não quiser que tenha duas ou mais arestas levando ao mesmo local só que com tamanhos diferentes
 	
@@ -166,6 +166,7 @@ public class Grafo {
 	/**
 	 * Pegar todas as arestas de um grafo.
 	 * @return ArrayList<Aresta> com todas as arestas do grafo
+	 * @Complexidade O(n+m)
 	 */
 	public ArrayList<Aresta> pegar_arestas() {
 		ArrayList<Aresta> lista_de_todas_arestas = new ArrayList<>();
@@ -183,10 +184,22 @@ public class Grafo {
 	/**
 	 * Tornar a variável "visitado" de todos os vertices 0.
 	 * @Complexidade O(n)
+	 * @param valor TODO
 	 */
-	public void zerar_visitados() {
-		for(int i=0; i < lista_de_vertices.size(); i++) {
-			lista_de_vertices.get(i).setVisitado(0);
+	public void set_all_visitados(int valor) {
+		for(int i=0; i < lista_de_vertices.size(); i++)
+			lista_de_vertices.get(i).setVisitado(valor);
+	}
+	
+	/**
+	 * Tornar todos os vertices ligados a esse no mesmo numero (setVisitado(X)).
+	 * @Complexidade O(n+m)
+	 */
+	public void set_visitado_em_profundidade(Vertice vertice_inicial, int valor) {
+		vertice_inicial.setVisitado(valor);
+		for(int i=0; i < vertice_inicial.getLista_de_arestas().size(); i++) {
+			if(vertice_inicial.getVisitado() != vertice_inicial.getLista_de_arestas().get(i).getVertice_final().getVisitado())
+				set_visitado_em_profundidade(vertice_inicial.getLista_de_arestas().get(i).getVertice_final(),valor);
 		}
 	}
 	
