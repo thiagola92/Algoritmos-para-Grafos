@@ -163,6 +163,10 @@ public class Grafo {
 		return null;
 	}
 	
+	public ArrayList<Vertice> pegar_vertices() {
+		return lista_de_vertices;
+	}
+
 	/**
 	 * Pegar todas as arestas de um grafo.
 	 * @return ArrayList<Aresta> com todas as arestas do grafo
@@ -230,8 +234,5 @@ public class Grafo {
 	
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public ArrayList<Vertice> getLista_de_vertices() {
-		return lista_de_vertices;
-	}
 	
 }

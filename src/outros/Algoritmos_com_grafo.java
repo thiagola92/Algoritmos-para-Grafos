@@ -113,7 +113,7 @@ public class Algoritmos_com_grafo {
 	 * @Complexidade O(n+m)
 	 */
 	public boolean ciclo() {
-		ArrayList<Vertice> lista_de_vertices = grafo.getLista_de_vertices();
+		ArrayList<Vertice> lista_de_vertices = grafo.pegar_vertices();
 		grafo.set_all_visitados(0);
 
 		for(int i=0; i < lista_de_vertices.size(); i++) {
@@ -168,7 +168,7 @@ public class Algoritmos_com_grafo {
 	 * @Complexidade O(n+m)
 	 */
 	public boolean fortemente_conexo(String vertice_a_verificar) {
-		ArrayList<Vertice> lista_de_vertices = grafo.getLista_de_vertices();
+		ArrayList<Vertice> lista_de_vertices = grafo.pegar_vertices();
 		Vertice vertice = grafo.pegar_vertice(vertice_a_verificar);
 		grafo.set_all_visitados(0);
 		
@@ -180,7 +180,7 @@ public class Algoritmos_com_grafo {
 		}
 		
 		Grafo grafo_invertido = grafo.inverter();
-		lista_de_vertices = grafo_invertido.getLista_de_vertices();
+		lista_de_vertices = grafo_invertido.pegar_vertices();
 		grafo_invertido.set_all_visitados(0);
 
 		fortemente_conexo_caminhada(vertice);
@@ -223,11 +223,12 @@ public class Algoritmos_com_grafo {
 		ArrayList<Aresta> lista_de_arestas = grafo.pegar_arestas();
 		
 		// O(n)
-		for(int i=0; i < grafo.getLista_de_vertices().size(); i++) {
-			new_grafo.add_vertice(grafo.getLista_de_vertices().get(i).getNome());
-			new_grafo.getLista_de_vertices().get(i).setVisitado(i);
+		for(int i=0; i < grafo.pegar_vertices().size(); i++) {
+			new_grafo.add_vertice(grafo.pegar_vertices().get(i).getNome());
+			new_grafo.pegar_vertices().get(i).setVisitado(i);
 		}
 		
+		// Depende do algoritmo de ordenação, provavel que seja O(mlogm)
 		lista_de_arestas.sort(new Comparator<Aresta>() {
 
 			@Override
@@ -238,7 +239,7 @@ public class Algoritmos_com_grafo {
 		});
 		
 		// O(m(n+m))
-		for(int i=0, j=0; i < lista_de_arestas.size() && j < new_grafo.getLista_de_vertices().size(); i++) {
+		for(int i=0, j=0; i < lista_de_arestas.size() && j < new_grafo.pegar_vertices().size(); i++) {
 			
 			// O(n)
 			Vertice vertice1 = new_grafo.pegar_vertice(lista_de_arestas.get(i).getVertice_inicial().getNome());
