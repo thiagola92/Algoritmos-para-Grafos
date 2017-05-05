@@ -216,7 +216,7 @@ public class Algoritmos_com_grafo {
 	/**
 	 * Indiferente se o grafo for direcionado ou não, vai retornar um não direcionado.
 	 * @return Um grafo não direcionado com as arestas de menor custo sem fazer ciclo
-	 * @Complexidade O(nm+m^2)
+	 * @Complexidade O(nm+m^2)?
 	 */
 	public Grafo kruskal() {
 		Grafo new_grafo = new Grafo();
