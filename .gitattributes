@@ -1,17 +1,4 @@
-# Java sources
-*.java          text diff=java
-*.kt            text diff=kotlin
-*.groovy        text diff=java
-*.scala         text diff=java
-*.gradle        text diff=java
-*.gradle.kts    text diff=kotlin
-
-# These files are binary and should be left untouched
-# (binary is a macro for -text -diff)
-*.class         binary
-*.dll           binary
-*.ear           binary
-*.jar           binary
-*.so            binary
-*.war           binary
-*.jks           binary
+# https://github.com/github/linguist/blob/master/docs/overrides.md
+*.class linguist-vendored
+*.jar linguist-vendored
+*.dll linguist-vendored
